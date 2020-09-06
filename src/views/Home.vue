@@ -22,13 +22,13 @@
         :url="url"
         :attribution="attribution"
       />
-      <l-marker :lat-lng="withPopup">
+      <l-marker :lat-lng="withPopup" >
         <l-popup>
           
         </l-popup>
       </l-marker>
-      <l-marker :lat-lng="withTooltip">
-      </l-marker>
+      <!-- <l-marker :lat-lng="withTooltip">
+      </l-marker> -->
     </l-map>
     </div>
     <div class="map-desc">
@@ -83,13 +83,14 @@ export default {
       mapOptions: {
         zoomSnap: 1
       },
-      showMap: true
+      showMap: true,
+      icon: "@/assets/icon.arrow.svg"
     };
   },
   methods: {
     // User IP Address
     userLocation() {
-      this.axios.get("https://api.ipify.org?format=json").then(response => {
+      this.axios.get("https://api.ipify.org").then(response => {
         this.ip = response.data.ip
         // console.log(this.ip);
       });
@@ -98,7 +99,7 @@ export default {
     userMap(){
       var api_key = 'at_0I0xMEJB0mGgKKIH5Uh704NeDlHyn';
       var api_url = 'https://geo.ipify.org/api/v1?';
-      var url = api_url + 'apiKey=' + api_key + '&ipAddress=' + this.locator;
+      var url = api_url + 'apiKey=' + api_key + '&ipAddress=' + this.ip;
       this.axios.get(url).then(response => {
         this.userDetails = response.data
         this.center = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
@@ -120,7 +121,7 @@ export default {
       e.preventDefault()
       var api_key = 'at_0I0xMEJB0mGgKKIH5Uh704NeDlHyn';
       var api_url = 'https://geo.ipify.org/api/v1?';
-      var url = api_url + 'apiKey=' + api_key + '&ipAddress=' + this.ip;
+      var url = api_url + 'apiKey=' + api_key + '&ipAddress=' + this.locator;
       this.axios.get(url).then(response => {
         this.userDetails = response.data
         this.center = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
