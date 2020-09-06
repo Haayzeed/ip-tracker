@@ -218,4 +218,26 @@ export default {
 .vue2leaflet-map{
   z-index: 0 !important;
 } 
+@media(max-width: 576px){
+  .map-desc {
+  width: 80%;
+  background: #fff;
+  border-radius: 15px;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.map-desc .map-content {
+  width: 100%;
+  padding: 0 25px;
+  text-align: left;
+  margin: 30px 0px;
+  border-right: 1px solid hsl(0, 0%, 59%);
+}
+}
 </style>
