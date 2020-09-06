@@ -3,8 +3,8 @@
     <div class="banner" style="">
       <h2>IP Address Tracker</h2>
       <form>
-        <input type="text" placeholder="Seach for any IP address or domain" />
-        <button><img src="@/assets/icon-arrow.svg" alt="" /></button>
+        <input type="text" placeholder="Seach for any IP address or domain" v-model="locator" />
+        <button @click="checkLocation"><img src="@/assets/icon-arrow.svg" alt="" /></button>
       </form>
     </div>
      <!-- <div id="mapid"></div> -->
@@ -66,63 +66,82 @@ export default {
   },
   data() {
     return {
+      locator: '',
+      city: '',
       ip: '',
-      latt: 3.44564,
-      lng: 6.77534,
       userDetails: [],
      zoom: 15,
-      center: latLng(this.latt, this.lng),
+      center: null,
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      withPopup: latLng(this.latt, this.lng),
-      withTooltip: latLng(this.latt, this.lng),
+      withPopup: null,
+      withTooltip: null,
       currentZoom: 1.5,
-      currentCenter: latLng(this.latt, this.lng),
+      currentCenter: null,
       showParagraph: false,
       mapOptions: {
         zoomSnap: 1
       },
       showMap: true
-
-
-
-
-
     };
   },
   methods: {
+    // User IP Address
     userLocation() {
       this.axios.get("https://api.ipify.org?format=json").then(response => {
         this.ip = response.data.ip
-        console.log(this.ip);
+        // console.log(this.ip);
       });
     },
+    // User Map
     userMap(){
       var api_key = 'at_0I0xMEJB0mGgKKIH5Uh704NeDlHyn';
       var api_url = 'https://geo.ipify.org/api/v1?';
-      var url = api_url + 'apiKey=' + api_key + '&ipAddress=' + this.ip;
+      var url = api_url + 'apiKey=' + api_key + '&ipAddress=' + this.locator;
       this.axios.get(url).then(response => {
         this.userDetails = response.data
-        console.log(this.userDetails);
+        this.center = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
+        this.withPopup = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
+        this.withTooltip = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
+        this.currentCenter = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
+        // console.log(this.userDetails);
       });
     },
+    // Map Properties
      zoomUpdate(zoom) {
       this.currentZoom = zoom;
     },
     centerUpdate(center) {
       this.currentCenter = center;
+    },
+    // Checking for Location
+    checkLocation(e){
+      e.preventDefault()
+      var api_key = 'at_0I0xMEJB0mGgKKIH5Uh704NeDlHyn';
+      var api_url = 'https://geo.ipify.org/api/v1?';
+      var url = api_url + 'apiKey=' + api_key + '&ipAddress=' + this.ip;
+      this.axios.get(url).then(response => {
+        this.userDetails = response.data
+        this.center = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
+        this.withPopup = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
+        this.withTooltip = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
+        this.currentCenter = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
+        console.log(this.userDetails);
+      });
     }
   },
   mounted() {
-    this.userLocation()
-    this.userMap()
+    // this.userLocation()
+    // this.userMap()
     // this.map = L.map('map')
   },
   created(){
     this.userLocation()
     this.userMap()  
-    
+  },
+  updated(){
+    // this.checkLocation()
   }
 };
 </script>
@@ -148,7 +167,7 @@ export default {
   padding-top: 1em;
 }
 .banner form {
-  width: 30%;
+  width: 40%;
   margin-top: 20px;
   display: flex;
   flex-direction: row;
@@ -162,7 +181,7 @@ export default {
   border-bottom-left-radius: 15px;
   font-size: 16px;
   border-style: none;
-  font-weight: 600;
+  font-weight: 400;
   font-family: "Rubik", sans-serif;
 }
 .banner button {
@@ -186,7 +205,7 @@ export default {
   background: #fff;
   border-radius: 15px;
   position: absolute;
-  top: 35%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10 !important;
@@ -206,17 +225,17 @@ export default {
 }
 .map-desc .map-content p {
   font-family: "Rubik", sans-serif;
-
   text-transform: uppercase;
   font-weight: bold;
   color: hsl(0, 0%, 59%);
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 2px;
   margin-bottom: 15px;
 }
 .map-desc .map-content h2 {
   font-family: "Rubik", sans-serif;
   text-transform: capitalize;
+  font-size: 20px;
 }
 .vue2leaflet-map{
   z-index: 0 !important;
