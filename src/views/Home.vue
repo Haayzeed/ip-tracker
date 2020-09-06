@@ -134,6 +134,9 @@ export default {
 }
 .banner {
   background-image: url("../assets/pattern-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   width: 100%;
   height: 35vh;
   display: flex;
