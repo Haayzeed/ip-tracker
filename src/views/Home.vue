@@ -219,25 +219,30 @@ export default {
   z-index: 0 !important;
 } 
 @media(max-width: 576px){
+  .banner form {
+  width: 90%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+}
   .map-desc {
-  width: 80%;
-  background: #fff;
-  border-radius: 15px;
+  width: 90%;
   position: absolute;
-  top: 35%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10 !important;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 .map-desc .map-content {
   width: 100%;
   padding: 0 25px;
-  text-align: left;
-  margin: 30px 0px;
-  border-right: 1px solid hsl(0, 0%, 59%);
+  margin: 20px 0px;
+  text-align: center;
+}
+.map-desc .map-content h2 {
+  font-size: 16px;
 }
 }
 </style>
