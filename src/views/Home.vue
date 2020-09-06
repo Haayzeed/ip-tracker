@@ -128,7 +128,6 @@ export default {
         this.withPopup = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
         this.withTooltip = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
         this.currentCenter = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
-        console.log(this.userDetails);
       });
     }
   },
