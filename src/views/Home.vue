@@ -221,9 +221,9 @@ export default {
 @media(max-width: 576px){
   .banner form {
   width: 90%;
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
+  /* margin-top: 20px; */
+  /* display: flex; */
+  /* flex-direction: row; */
 }
   .map-desc {
   width: 90%;
@@ -238,7 +238,34 @@ export default {
 .map-desc .map-content {
   width: 100%;
   padding: 0 25px;
-  margin: 20px 0px;
+  margin: 10px 0px;
+  text-align: center;
+}
+.map-desc .map-content h2 {
+  font-size: 16px;
+}
+}
+@media(max-width: 375px){
+  .banner form {
+  width: 90%;
+  /* margin-top: 20px; */
+  /* display: flex; */
+  /* flex-direction: row; */
+}
+  .map-desc {
+  width: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10 !important;
+  display: flex;
+  flex-direction: column;
+}
+.map-desc .map-content {
+  width: 100%;
+  padding: 0 25px;
+  margin: 10px 0px;
   text-align: center;
 }
 .map-desc .map-content h2 {
