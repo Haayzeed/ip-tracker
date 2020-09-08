@@ -3,8 +3,11 @@
     <div class="banner" style="">
       <h2>IP Address Tracker</h2>
       <form>
+        
         <input type="text" placeholder="Seach for any IP address or domain" v-model="locator" />
         <button @click="checkLocation"><img src="@/assets/icon-arrow.svg" alt="" /></button>
+        <div class="preload" v-show="showPreload"></div>
+        
       </form>
     </div>
      <!-- <div id="mapid"></div> -->
@@ -26,6 +29,15 @@
         <l-popup>
           
         </l-popup>
+        <l-icon
+          :icon-anchor="staticAnchor"
+          class-name="someExtraClass"
+        >
+          <div class="headline">
+            {{ customText }}
+          </div>
+          <img src="@/assets/icon-location.svg">
+        </l-icon>
       </l-marker>
       <!-- <l-marker :lat-lng="withTooltip">
       </l-marker> -->
@@ -54,14 +66,16 @@
 
 <script>
 // @ is an alias to /src
-import { latLng } from "leaflet";
-import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
+import { LMap, LTileLayer, LMarker, LPopup, LIcon } from "vue2-leaflet";
+import { latLng  } from "leaflet";
 export default {
   components: {
     LMap,
     LTileLayer,
     LMarker,
-    LPopup
+    LPopup,
+    LIcon,
+    // icon
     // LTooltip
   },
   data() {
@@ -70,6 +84,7 @@ export default {
       city: '',
       ip: '',
       userDetails: [],
+      showPreload: false,
      zoom: 15,
       center: null,
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -106,7 +121,7 @@ export default {
         this.withPopup = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
         this.withTooltip = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
         this.currentCenter = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
-        // console.log(this.userDetails);
+        console.log(this.userDetails);
       });
     },
     // Map Properties
@@ -119,15 +134,18 @@ export default {
     // Checking for Location
     checkLocation(e){
       e.preventDefault()
+      this.showPreload = true
       var api_key = 'at_0I0xMEJB0mGgKKIH5Uh704NeDlHyn';
       var api_url = 'https://geo.ipify.org/api/v1?';
       var url = api_url + 'apiKey=' + api_key + '&ipAddress=' + this.locator;
       this.axios.get(url).then(response => {
+        this.showPreload = false
         this.userDetails = response.data
         this.center = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
         this.withPopup = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
         this.withTooltip = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
         this.currentCenter = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
+
       });
     }
   },
@@ -157,7 +175,7 @@ export default {
   background-size: cover;
   background-position: center;
   width: 100%;
-  height: 35vh;
+  height: 38vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -171,6 +189,7 @@ export default {
   margin-top: 20px;
   display: flex;
   flex-direction: row;
+  position: relative;
 }
 .banner input {
   border: none;
@@ -183,6 +202,28 @@ export default {
   border-style: none;
   font-weight: 400;
   font-family: "Rubik", sans-serif;
+  
+}
+.preload{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border-top: 4px solid hsl(0, 0%, 17%);
+  border-right: 4px solid hsl(0, 0%, 17%);
+  border-bottom: 4px solid hsl(0, 0%, 17%);
+  border-left: 4px solid hsl(0, 0%, 59%);
+  position: absolute;
+  right: 50px;
+  margin-top: 10px;
+  animation: roll 1s linear infinite;
+}
+@keyframes roll{
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg)
+  }
 }
 .banner button {
   background: hsl(0, 0%, 17%);
@@ -198,7 +239,7 @@ export default {
 }
 .map {
   width: 100%;
-  height: 65vh;
+  height: 62vh;
 }
 .map-desc {
   width: 80%;
@@ -240,6 +281,7 @@ export default {
 .vue2leaflet-map{
   z-index: 0 !important;
 } 
+
 @media(max-width: 576px){
   .banner form {
   width: 90%;
