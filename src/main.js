@@ -4,6 +4,7 @@ import router from "./router";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
+import "@/assets/style.css"
 
 Vue.use(VueAxios, axios);
 Vue.component('l-map', LMap);
