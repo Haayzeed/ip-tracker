@@ -12,7 +12,7 @@
         <button @click="checkLocation"><img src="@/assets/icon-arrow.svg" alt="" /></button>
         <div class="preload" v-show="showPreload"></div>
       </form>
-      <p class="error" v-if="error">This field is empty</p>
+      <p class="error" v-if="error">This field is empty or wrong numbers</p>
     </div>
      <!-- <div id="mapid"></div> -->
     <div class="map">
@@ -134,8 +134,9 @@ export default {
     checkLocation(e){
       e.preventDefault()
       this.showPreload = true
-      // if((this.url.startsWith('http://')) || (this.url.startsWith('https://'))){}
-      if(this.locator){
+      // RegExp for IP Address Vlidation
+      var ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+      if(this.locator && this.locator.match(ipformat)){
         var api_key = 'at_0I0xMEJB0mGgKKIH5Uh704NeDlHyn';
         var api_url = 'https://geo.ipify.org/api/v1?';
         var url = api_url + 'apiKey=' + api_key + '&ipAddress=' + this.locator;
@@ -158,6 +159,11 @@ export default {
   created(){
     this.userLocation()
     this.userMap()  
+  },
+  computed:{
+    // if(this.locator){
+
+    // }
   }
 };
 </script>

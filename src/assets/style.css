@@ -115,7 +115,9 @@
 .vue2leaflet-map{
   z-index: 0 !important;
 } 
-
+@media(max-width: 768px){
+  
+}
 @media(max-width: 576px){
   .banner form {
   width: 90%;
