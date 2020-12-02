@@ -142,6 +142,7 @@ export default {
         var url = api_url + 'apiKey=' + api_key + '&ipAddress=' + this.locator;
           this.axios.get(url).then(response => {
           this.showPreload = false
+          this.error = false
           this.userDetails = response.data
           this.center = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
           this.withPopup = latLng(this.userDetails.location.lat, this.userDetails.location.lng);
